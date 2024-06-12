@@ -10,13 +10,22 @@ fi
 # # 1. Login with gh for private repos, and follow prompts
 # gh auth login
 
-# 2. Clone (or update) up to 1000 repos under `./myorgname` folder
-#    [replace 'myorgname' with your org name and increase repo limit if needed]
-gh repo list $1 --limit 1000 | while read -r repo _; do
+myorgname=$1  # Set the organization name to 'SmartSkies'
+
+total_repos=$(gh repo list $myorgname --limit 1000 | wc -l | awk '{$1=$1};1')  # Count the total number of repositories in the organization
+current_repo=0  # Initialize the current repository counter
+
+# Loop through each repository within the organization
+gh repo list $myorgname --limit 1000 | while read -r repo _; do
+    current_repo=$((current_repo + 1))  # Increment the current repository counter
+    echo "Cloning repository" $current_repo "out of" $total_repos: $repo  # Display the progress of cloning the repository
+
+    repo=${repo#$myorgname/}  # Remove 'orgname/' prefix from the repository name
+
     gh repo clone "$repo" -- -q 2>/dev/null || (
         cd "$repo"
         # Handle case where local checkout is on a non-main/master branch
-        # - ignore all errors because some repos may have zero commits, 
+        # - ignore all errors because some repos may have zero commits,
         # so no main or master
         set +e
         git checkout -q main 2>/dev/null
