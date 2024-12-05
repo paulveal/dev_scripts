@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Shell script to clone repositories from a GitHub organization using 'gh' CLI tool.
 # The script allows cloning all repositories from the organization or a specific repository based on input arguments.

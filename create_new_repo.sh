@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Define a function called 'usage' to display the script usage instructions
 usage() {
