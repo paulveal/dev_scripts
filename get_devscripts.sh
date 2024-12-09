@@ -17,11 +17,25 @@ fi
 # Clean up the ZIP file
 rm dev_scripts.zip
 
-# Add the new dev_scripts directory to the PATH environment variable in .bashrc
+# Add the new dev_scripts directory to the PATH environment variable in .bashrc and .zshrc
 DEV_SCRIPTS_PATH=$(pwd)/dev_scripts
-if ! grep -q "$DEV_SCRIPTS_PATH" ~/.bashrc; then
-  echo "export PATH=\$PATH:$DEV_SCRIPTS_PATH" >> ~/.bashrc
-  echo "Added dev_scripts to PATH in .bashrc. Please restart your terminal or run 'source ~/.bashrc' to apply the changes."
-else
-  echo "dev_scripts is already in the PATH."
-fi
+
+# Function to add path to a shell configuration file
+add_to_path() {
+  local shell_rc=$1
+  if ! grep -q "$DEV_SCRIPTS_PATH" "$shell_rc"; then
+    echo "export PATH=\$PATH:$DEV_SCRIPTS_PATH" >> "$shell_rc"
+    echo "Added dev_scripts to PATH in $shell_rc."
+  else
+    echo "dev_scripts is already in the PATH in $shell_rc."
+  fi
+}
+
+# Add to .bashrc
+add_to_path ~/.bashrc
+
+# Add to .zshrc
+add_to_path ~/.zshrc
+
+# Single output message
+echo "Please restart your terminal or run 'source ~/.bashrc' if using bash, or 'source ~/.zshrc' if using zsh to apply the changes."
