@@ -44,6 +44,26 @@ Usage:
 gh_auth.sh <path_to_token_file>
 ```
 
+### `get_devscripts.sh`
+
+This script downloads and sets up the development scripts from dev_scripts repository.
+
+Usage:
+
+```sh
+get_devscripts.sh
+```
+
+### `unminimise.sh`
+
+This script restores content and packages that are found on a default Ubuntu server system to make a minimized system more suitable for interactive use.
+
+Usage:
+
+```sh
+unminimise.sh
+```
+
 ## Requirements
 
 - [GitHub CLI (`gh`)](https://cli.github.com/)
@@ -52,15 +72,3 @@ gh_auth.sh <path_to_token_file>
 - `unzip`
 - `awk`
 - `sed`
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request with your changes.
-
-## Author
-
-This repository is maintained by Paul Veal.
