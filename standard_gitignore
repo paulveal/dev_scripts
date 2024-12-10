@@ -1,0 +1,83 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Logs
+*.log
+
+# Temp directories
+temp/
+tmp/
+
+# Docker
+# Ignore Docker files that are not source files
+**/docker-compose.override.yml
+**/docker-compose.*.yml
+
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.pyo
+*.pyd
+
+# JavaScript/Node
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+target/
+build/
+
+# React
+build/
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# General
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old
+*.orig
+*.rej
+*.sublime-project
+*.sublime-workspace
+*.vscode/
+.idea/
