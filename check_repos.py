@@ -65,30 +65,31 @@ def main(directory=None):
     git_repos = find_git_repos(directory)
     non_git_repos = find_non_git_repos(directory)
     
-    for repo in git_repos:
+    all_repos = [(repo, 'git') for repo in git_repos] + [(non_repo, 'non-git') for non_repo in non_git_repos]
+    all_repos.sort(key=lambda x: os.path.relpath(x[0], directory))
+    
+    for repo, repo_type in all_repos:
         relative_repo = os.path.relpath(repo, directory)
         if relative_repo == '.':
             relative_repo = os.path.basename(repo)
-        branch_name = get_branch_names(repo)
-        branch_status = get_branch_status(repo)
         
-        if branch_status == 'up to date':
-            color = 'green'
-        elif branch_status in ['unknown', 'missing remote']:
-            color = 'red'
+        if repo_type == 'git':
+            branch_name = get_branch_names(repo)
+            branch_status = get_branch_status(repo)
+            
+            if branch_status == 'up to date':
+                color = 'green'
+            elif branch_status in ['unknown', 'missing remote']:
+                color = 'red'
+            else:
+                color = 'amber'
+            
+            if branch_name:
+                print(color_text(f'Repo: {relative_repo}, Branch: {branch_name}, Status: {branch_status}', color))
+            else:
+                print(color_text(f'Repo: {relative_repo}, Branch: Unknown, Status: {branch_status}', color))
         else:
-            color = 'amber'
-        
-        if branch_name:
-            print(color_text(f'Repo: {relative_repo}, Branch: {branch_name}, Status: {branch_status}', color))
-        else:
-            print(color_text(f'Repo: {relative_repo}, Branch: Unknown, Status: {branch_status}', color))
-    
-    for non_repo in non_git_repos:
-        relative_non_repo = os.path.relpath(non_repo, directory)
-        if relative_non_repo == '.':
-            relative_non_repo = os.path.basename(non_repo)
-        print(f'Directory: {relative_non_repo} is not a Git repository')
+            print(f'Directory: {relative_repo} is not a Git repository')
 
 if __name__ == "__main__":
     main()
