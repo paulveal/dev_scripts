@@ -9,6 +9,18 @@ def find_git_repos(directory):
             dirs.remove('.git')  # Don't visit .git directories
     return git_repos
 
+def find_non_git_repos(directory):
+    non_git_repos = []
+    ignored_dirs = {'.git', '.venv', 'node_modules'}
+    for item in os.listdir(directory):
+        item_path = os.path.join(directory, item)
+        if os.path.isdir(item_path) and item not in ignored_dirs:
+            if not os.path.exists(os.path.join(item_path, '.git')):
+                sub_git_repos = find_git_repos(item_path)
+                if not sub_git_repos:
+                    non_git_repos.append(item_path)
+    return non_git_repos
+
 def get_branch_names(repo_path):
     try:
         result = subprocess.run(['git', '-C', repo_path, 'branch', '--show-current'], capture_output=True, text=True, check=True)
@@ -51,6 +63,7 @@ def main(directory=None):
     if directory is None:
         directory = os.getcwd()
     git_repos = find_git_repos(directory)
+    non_git_repos = find_non_git_repos(directory)
     
     for repo in git_repos:
         relative_repo = os.path.relpath(repo, directory)
@@ -70,6 +83,12 @@ def main(directory=None):
             print(color_text(f'Repo: {relative_repo}, Branch: {branch_name}, Status: {branch_status}', color))
         else:
             print(color_text(f'Repo: {relative_repo}, Branch: Unknown, Status: {branch_status}', color))
+    
+    for non_repo in non_git_repos:
+        relative_non_repo = os.path.relpath(non_repo, directory)
+        if relative_non_repo == '.':
+            relative_non_repo = os.path.basename(non_repo)
+        print(f'Directory: {relative_non_repo} is not a Git repository')
 
 if __name__ == "__main__":
     main()
