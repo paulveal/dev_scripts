@@ -1,6 +1,49 @@
+"""
+This script checks the status of Git repositories in a given directory and prints their status.
+Functions:
+    find_git_repos(directory):
+        Finds all Git repositories in a given directory.
+        Args:
+            directory (str): The directory to search for Git repositories.
+        Returns:
+            list: A list of paths to Git repositories.
+    find_non_git_repos(directory):
+        Finds directories that are not Git repositories.
+        Args:
+            directory (str): The directory to search for non-Git repositories.
+        Returns:
+            list: A list of paths to non-Git directories.
+    get_branch_names(repo_path):
+        Gets the current branch name of a Git repository.
+        Args:
+            repo_path (str): The path to the Git repository.
+        Returns:
+            str: The name of the current branch, or None if an error occurs.
+    get_branch_status(repo_path):
+        Gets the status of the current branch in a Git repository.
+        Args:
+            repo_path (str): The path to the Git repository.
+        Returns:
+            str: The status of the current branch (e.g., 'push', 'pull', 'missing remote', 'untracked files', 'changes to commit', 'up to date', 'unknown').
+    color_text(text, color):
+        Colors text based on the status.
+        Args:
+            text (str): The text to color.
+            color (str): The color to use ('green', 'amber', 'red').
+        Returns:
+            str: The colored text.
+    main(directory=None):
+        Main function to check repositories and print their status.
+        Args:
+            directory (str, optional): The directory to check. Defaults to the current working directory.
+        Returns:
+            None
+"""
+
 import os
 import subprocess
 
+# Function to find all Git repositories in a given directory
 def find_git_repos(directory):
     git_repos = []
     for root, dirs, files in os.walk(directory):
@@ -9,6 +52,7 @@ def find_git_repos(directory):
             dirs.remove('.git')  # Don't visit .git directories
     return git_repos
 
+# Function to find directories that are not Git repositories
 def find_non_git_repos(directory):
     non_git_repos = []
     ignored_dirs = {'.git', '.venv', 'node_modules'}
@@ -21,6 +65,7 @@ def find_non_git_repos(directory):
                     non_git_repos.append(item_path)
     return non_git_repos
 
+# Function to get the current branch name of a Git repository
 def get_branch_names(repo_path):
     try:
         result = subprocess.run(['git', '-C', repo_path, 'branch', '--show-current'], capture_output=True, text=True, check=True)
@@ -28,6 +73,7 @@ def get_branch_names(repo_path):
     except subprocess.CalledProcessError:
         return None
 
+# Function to get the status of the current branch in a Git repository
 def get_branch_status(repo_path):
     try:
         result = subprocess.run(['git', '-C', repo_path, 'status', '-sb'], capture_output=True, text=True, check=True)
@@ -50,6 +96,7 @@ def get_branch_status(repo_path):
     except subprocess.CalledProcessError:
         return 'unknown'
 
+# Function to color text based on the status
 def color_text(text, color):
     colors = {
         'green': '\033[92m',
@@ -59,6 +106,7 @@ def color_text(text, color):
     }
     return f"{colors[color]}{text}{colors['end']}"
 
+# Main function to check repositories and print their status
 def main(directory=None):
     if directory is None:
         directory = os.getcwd()
