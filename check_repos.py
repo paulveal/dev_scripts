@@ -54,6 +54,8 @@ def main(directory=None):
     
     for repo in git_repos:
         relative_repo = os.path.relpath(repo, directory)
+        if relative_repo == '.':
+            relative_repo = os.path.basename(repo)
         branch_name = get_branch_names(repo)
         branch_status = get_branch_status(repo)
         
