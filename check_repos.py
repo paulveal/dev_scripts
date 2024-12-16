@@ -40,6 +40,8 @@ Functions:
             None
 """
 
+# To create an execuitable script, run the following command: pyinstaller --onefile check_repos.py
+
 import os
 import subprocess
 
