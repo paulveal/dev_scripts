@@ -57,7 +57,7 @@ def find_git_repos(directory):
 # Function to find directories that are not Git repositories
 def find_non_git_repos(directory):
     non_git_repos = []
-    ignored_dirs = {'.git', '.venv', 'node_modules'}
+    ignored_dirs = {'.git', '.venv', 'node_modules', '.vscode', 'build', 'dist', 'env', '__pycache__'}
     for item in os.listdir(directory):
         item_path = os.path.join(directory, item)
         if os.path.isdir(item_path) and item not in ignored_dirs:
