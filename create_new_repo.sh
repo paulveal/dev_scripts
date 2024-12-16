@@ -31,11 +31,15 @@ echo "Creating GitHub repo: $1/$2 with visibility $visibility"
 gh repo create $1/$2 $visibility
 
 # Create a new directory with the same name as the repository, navigate into it and initialize a new git repository
-mkdir $2 && cd $2 && git init
+mkdir $2
+cp "$(dirname "$0")/standard_gitignore" $2/.gitignore
+cd $2
+git init
 
 # Add a README.md file with the repository name as the heading, stage and commit the changes
 echo "# $2" >> README.md
-git add README.md
+git add .
+
 git commit -m "first commit"
 
 # Set the main branch as the default branch, add the GitHub repository as the remote origin and push the local repository to GitHub

@@ -33,6 +33,12 @@ if [ ! -f README.md ]; then
     echo "README.md file created."
 fi
 
+# If .gitignore is not present, create it from standard_gitignore
+if [ ! -f .gitignore ]; then
+    cp "$(dirname "$0")/standard_gitignore" .gitignore
+    echo "Copied standard_gitignore to .gitignore."
+fi
+
 # Stage all files and commit with "Initial Commit"
 git add .
 git commit -m "Initial Commit"
@@ -46,3 +52,4 @@ else
     echo "Error: Failed to create or push to GitHub repository."
     exit 1
 fi
+``
