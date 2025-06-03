@@ -62,8 +62,9 @@ clone_repo() {
 
     # Try to update the cloned repository
     set +e
-    git checkout -q main 2>/dev/null
-    git checkout -q master 2>/dev/null
+    # Get the remote default branch name
+    default_branch=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+    git checkout -q "$default_branch" 2>/dev/null
     git pull -q
     set -e
   )
